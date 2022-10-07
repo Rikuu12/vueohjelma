@@ -1,0 +1,92 @@
+<html>
+<head>
+ 
+<script src="https://unpkg.com/vue@2.4.3/dist/vue.js"></script>
+<style type="text/css">
+      #myDiv{
+        position: absolute;
+        top: 100px;
+        left: 200px;
+        background-color:red;
+        height:100px;
+        width: 100px;
+        border-radius: 100px;
+      }
+</style>
+
+
+
+ 
+</head>
+ 
+<body>
+      
+      <div id="example">
+        <button v-on:click="changeWidth()">vaihda</button>
+        <button v-on:click="addForce()">PAMAUTA</button>                            
+        <div id="myDiv" v-bind:style="{ left: computedLeft , top: computedTop}"></div>
+      </div>
+ 
+      <script language="javascript">
+ 
+        var vm = new Vue({ 
+            el: '#example',
+            data: {
+               width:'200px',
+               widthInteger: 200,
+ 
+               top: 100,
+               left: 10,
+               xAdd: 10,
+               yAdd: 10,
+ 
+               timer:null,
+            },
+            computed: {
+              computedLeft: function() {
+                return this.left;
+              },
+
+              computedTop: function() {
+                return this.top;
+              }
+            },
+          
+            methods: {
+              addForce: function (event) 
+              {
+                this.yAdd -= 1;
+                this.xAdd -= 1;
+                /*
+                this.widthInteger += 10;
+                this.width = this.widthInteger + "px";
+                */
+              },
+              updateBall: function (event) 
+              {
+                  this.yAdd +=1;
+                  this.xAdd +=1;
+                  this.left += this.yAdd; 
+                  this.top += this.xAdd;
+                  if (this.left >70)  
+                  this.yAdd = -this.yAdd;
+                  if (this.top >-50) 
+                  this.xAdd = -this.xAdd;
+                  if (this.left >-145)  
+                  this.yAdd = -this.yAdd;
+                  if (this.top >145) 
+                  this.xAdd = -this.xAdd;
+      
+              },
+            },
+ 
+            mounted: function () {
+            this.timer = setInterval(() => {
+                this.updateBall();
+            }, 20)
+            },
+ 
+          })
+    </script>      
+</body>
+</html>
